@@ -1,0 +1,37 @@
+body {
+	background-color: #3F3F3F;
+}
+.logowanie_row {
+	margin: 0;
+}
+.logowanie_col {
+	position: absolute;
+	transform: translateY(-50%);
+    top: 50%;
+    text-align: center;
+}
+.logowanie_form {
+	margin-top: 30px;
+}
+.content {
+	text-align: center;
+}
+.blad {
+	font-weight: bold;
+	color: red;
+}
+input:not([type=submit]) {
+	width: 175px;
+    padding: 2px;
+    border-radius: 3px;
+    border: 1px solid #47D2E9;
+    color: #666;
+}
+input[type=submit] {
+    border: 1px solid #D3D3D3;
+    padding: 7px;
+    box-shadow: 3px 3px 30px #000;
+    border-radius: 3px;
+    background-color: #EEEEEE;
+    color: #111;
+}
