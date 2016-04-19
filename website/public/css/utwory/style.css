@@ -1,5 +1,5 @@
 .title {
-	background-color: #27AE60;
+	background-color: #E67E22;
 	padding: 40px 20px;
 }
 .title div {
@@ -16,7 +16,7 @@
     text-decoration: underline;
 }
 .content {
-	background-color: #2980B9;
+	background-color: #34495E;
 	min-height: 100%;
 	padding: 100px;
 }
@@ -60,7 +60,7 @@
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
-    background: #27AE60 url(/utwory_muzyczne/img/select-arrow.png) no-repeat 96% center;
+    background: #E67E22 url(/utwory_muzyczne/img/select-arrow.png) no-repeat 96% center;
 }
 /*removes select arrow from IE*/
 select::-ms-expand {
@@ -107,7 +107,7 @@ select::-ms-expand {
 	text-decoration: underline;
 }
 .add {
-	color: #27AE60;
+	color: #E67E22;
 	font-size: 50px;
 	margin-top: 10px;
     text-align: center;
