@@ -10,9 +10,6 @@
 			<div class="col-xs-9 col-xs-offset-1">
 				<input class="search-input" name="szukaj" type="text" placeholder="Szukaj" value="<?php if(isset($_GET['szukaj'])) echo $_GET['szukaj']; ?>">
 			</div>
-			<?php if(isset($_GET['sortuj'])): ?>
-				<input type="hidden" name="sortuj" value="<?=$_GET['sortuj']?>">
-			<?php endif; ?>
 			<div class="search-submit col-xs-2"><input type="submit" value="Szukaj"></div>
 		</form>
 	</div>
@@ -20,9 +17,6 @@
 		<?php if(isset($this->utwory)): ?>
 		<div class="sort col-xs-4 col-xs-offset-4">
 			<form class="sortuj_form" action="utwory/szukaj" method="Get">
-				<?php if(isset($_GET['szukaj'])): ?>
-					<input type="hidden" name="szukaj" value="<?=$_GET['szukaj']?>">
-				<?php endif; ?>
 				<select class="sort-select" name="sortuj">
 					<option style="display:none;">--Sortuj--</option>
 					<option value="ocenaD">Ocena: od najwyższej</option>
@@ -105,29 +99,6 @@
 </div>
 
 
-<!-- ogólny popup do edycji/dodawania utworu, dostosowywany jest w jquery(tytuł,action,submit) -->
-<div class="popup">
-	<h1>Tytuł<i class="popup-exit fa fa-times"></i></h1>
-	<div class="popup-content">
-		<form class="popup_form" action="" method="Post" enctype="multipart/form-data">
-			<div class="inputs">
-				<label for="tytul">Tytuł: </label> <input type="text" name="tytul" id="tytul" maxlength="50"><br>
-				<label for="album">Album: </label> <input type="text" name="album" id="album" maxlength="50"><br>
-				<label for="wykonawca">Wykonawca: </label> <input type="text" name="wykonawca" id="wykonawca" maxlength="50"><br>
-				<label for="zdjecie">Zdjęcie(opcjonalne): </label> <input type="file" name="zdjecie" id="zdjecie"><br>
-			</div>
 
-			<input type="submit" value="">
-		</form>
-		<img id="ajax_loader" src="img/ajax_loader.gif">
-	</div>
-</div>
 
-<!-- alert do usuwania utworu -->
-<div class="delete_alert">
-	<div class="alert alert-danger">
-		<h4>Czy na pewno chcesz usunąć utwór?</h4>
-		<button class="delete-button btn btn-danger">Usuń</button>
-		<button class="alert-exit btn btn-default">Anuluj</button>
-	</div>
-</div>
+
