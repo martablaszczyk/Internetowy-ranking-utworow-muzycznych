@@ -182,16 +182,13 @@ class Database extends PDO {
 		try {
 			$sql = $this->prepare("SELECT count(*) FROM {$from} WHERE {$where} {$where_not}");
 
-			ChromePhp::log($sql);
 
 			foreach ($where_array as $key => $value) {
 				$sql->bindValue(':' . $key, $value);
-				ChromePhp::log(':' . $key . ' ' . $value);
 			}
 
 			foreach ($where_not_array as $key => $value) {
 				$sql->bindValue(':' . $key, $value);
-				ChromePhp::log(':' . $key . ' ' . $value);
 			}
 
 			$sql->execute();
