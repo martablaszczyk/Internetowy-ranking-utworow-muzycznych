@@ -19,6 +19,123 @@ class Model_Utwory extends Model {
 		}
 	}
 
+	public function dodaj($post) {
+		//sprawdzenie czy isset i nie puste
+		//czy dlugosc jest odpowiednia
+		//czy nie ma juz takiego maila w bazie
+		//dodaj goscia do bazy i zwroc ok
+
+		$bledy = array();
+
+		if(!isset($post['tytul']) || !isset($post['album']) || !isset($post['wykonawca'])) {
+			$bledy[] = 'Nie kombinuj hakerze.';
+		}
+
+		$tytul = $post['tytul'];
+		$album = $post['album'];
+		$wykonawca = $post['wykonawca'];
+
+		if(empty($tytul) || empty($album) || empty($wykonawca)) {
+			$bledy[] = 'Nie wprowadzono wszystkich danych.';
+		}
+
+		if((strlen($tytul) > 50) || (strlen($album) > 50) || (strlen($wykonawca) > 50)) {
+			$bledy[] = 'Nie zmieniaj maksymalnej wartości pól.';
+		}
+
+		if(count($bledy) == 0) {
+			$czyZdjecie = false;
+			if(!empty($_FILES['zdjecie']['name'])) {
+
+				$zdjecie = $_FILES['zdjecie'];
+				// Check if image file is a actual image or fake image
+				$check = getimagesize($zdjecie['tmp_name']);
+				if($check) {
+					$czyZdjecie = true;
+					$dir = 'okladki/';
+					//name with file extension
+					$target_file = $dir . basename($zdjecie['name']);
+					$image_type = pathinfo($target_file, PATHINFO_EXTENSION);
+					$filename = basename($zdjecie['name']);
+
+					$i = 1;
+					if(file_exists($target_file)) {
+						//name without extension
+						$name = basename($zdjecie['name'], '.' . $image_type);
+						//katalog + nazwa + cyfra + . + rozszerzenie
+						while(file_exists($dir . basename($name . $i . '.' . $image_type))) {
+							$i++;
+						}
+						$target_file = $dir . basename($name . $i . '.' . $image_type);
+						$filename = $name . $i . '.' . $image_type;
+					}		
+				
+				}
+			}
+
+			$result =  $this->_db->count('utwory', array(
+							'tytul' => $tytul
+						));
+
+			if(is_object($result)) {
+
+				//rowCount() nie zawsze działa w MySQL, więc fetchCoulmn()
+				if($result->fetchColumn() == 0) {
+					$this->_db->beginTransaction();
+
+					if($czyZdjecie) {
+						$result_insert = $this->_db->insert('utwory', array(
+							'tytul' => $tytul,
+							'album' => $album,
+							'wykonawca' => $wykonawca,
+							'zdjecie' => $filename
+						));
+					} else {
+						$result_insert = $this->_db->insert('utwory', array(
+							'tytul' => $tytul,
+							'album' => $album,
+							'wykonawca' => $wykonawca
+						));
+					}
+					
+
+					if(is_object($result_insert)) {
+						if($czyZdjecie) {
+							if(move_uploaded_file($zdjecie['tmp_name'], $target_file)) {
+								$this->_db->commit();
+								return 'ok';
+							} else {
+								$this->_db->rollBack();
+								return 'Wystąpił błąd podczas wgrywania zdjęcia';
+							}
+						} else {
+							$this->_db->commit();
+							return 'ok';
+						}
+					} else {
+						$this->_db->rollBack();
+						return 'Wystąpił błąd podczas dodawania utworu do bazy. ' . $result_insert;
+					}
+
+					
+				} else {
+					return 'Podany Tytuł istnieje już w bazie danych.';
+				}
+			} else {
+				return 'Wystąpił błąd w bazie danych. ' . $result;
+			}
+
+		} else {
+			$raport = '';
+			foreach ($bledy as $blad) {
+				$raport.= $blad . ' ';
+			}
+			return $raport;
+		}
+
+		
+	}
+
 	public function szukajUtworu() {
 		
 		if(isset($_GET['szukaj'])) {

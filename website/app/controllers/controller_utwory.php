@@ -29,6 +29,15 @@ class Utwory extends Controller {
 		$this->view->display('utwory/index');
 	}
 
+	public function dodaj() {
+		if(!$this->czyZalogowany()) {
+			$this->redirect('utwory');
+			exit;	
+		}
+
+		echo $this->model->dodaj($_POST);
+	}
+
 	public function szukaj() {
 		if($this->czyZalogowany()) {
 			$this->view->czyZalogowany = true;

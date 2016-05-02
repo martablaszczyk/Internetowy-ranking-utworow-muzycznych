@@ -2,11 +2,115 @@ $(document).ready(function() {
 	//flag, prevent duplicate ajax requests
 	requestSent = false;
 
+	dodaj();
 	sortuj();
 	ocenianie();
+	resetInputBackground();
 
 });
 
+function dodaj() {
+	$('.add-button').on('click', function(event) {
+		event.preventDefault();
+
+		//dostosowanie popup'a do dodania utworu: tytuł,action i submit
+		//pobranie zawartosci headera, przefiltrowanie(wybranie tylko 'textu' poprzez nodeType, podmiana - text() nie działa)
+			$('.popup h1').contents().filter(function(index) {
+				return this.nodeType == 3;
+			}).replaceWith('Dodaj utwór');
+			$('.popup_form')['0'].setAttribute('action', 'utwory/dodaj');
+			$('.popup_form input[type=submit]').val('Dodaj utwór');
+		//koniec dostosowywania
+
+		// Ukrywamy starą wiadomość, pokazujemy formularz i przycisk 'X'
+		$('.popup-message').hide();
+		$('.popup_form, .popup-exit').show();
+
+
+
+		// check if overlay exists - it was created before
+		if(!$('.overlay').length) {
+			$('body').append('<div class="overlay"></div>');
+		}
+		$('.overlay, .popup').fadeIn();
+
+		$('.popup-exit').click(function(event) {
+			$('.overlay, .popup').fadeOut();
+		});
+
+		$(document).keydown(function(event) {
+			// ESCAPE key pressed
+			if(event.keyCode == 27) $('.overlay, .popup').fadeOut();
+			return;
+		});
+
+		$('.popup_form').submit(function(event) {
+			event.preventDefault();
+
+			empty = false;
+
+			$('.popup_form > .inputs').children('input').not('input[type=file]').each(function(index, el) {
+				if(!$(this).val()) {
+					$(this).css('background-color', 'red');
+					empty = true;
+
+				} else {
+					$(this).css('background-color', 'white');
+				}
+			});
+
+			if(!empty) {
+				$('.popup_form, .popup-exit').hide();
+				$('#ajax_loader').css('display', 'block');
+
+
+				if(!requestSent) {
+      				requestSent = true;
+
+      				//ajax to send also fles
+      				var data = new FormData($(this)[0]);
+					$.ajax({
+						url: $(this).attr('action'),
+						type: 'POST',
+						data: data,
+						success: function(result) {
+							requestSent = false;
+							if(result == 'ok') {
+								$('#ajax_loader').css('display', 'none');
+
+
+								message = 'Utwór został dodany';
+							} else {
+								message = result;
+							}
+
+							//reset inputs after submit
+							$('.popup_form')[0].reset();
+
+							$('#ajax_loader').css('display', 'none');
+
+							if($('.popup-message').length) {
+								$('.popup-message').text(message).show();
+							} else {
+								$('.popup-content').append('<div class="popup-message">' + message + '</div>');
+								$('.popup-message').show();
+							}
+							$('.popup, .overlay').delay(1500).fadeOut();
+						}, 
+						error: function() {
+
+						},
+						//Options to tell jQuery not to process data or worry about content-type
+						cache: false,
+						contentType: false,
+						processData: false
+					});
+				}
+			}
+		});
+		
+	});
+}
 
 function sortuj() {
 	$('.sort-select').change(function(event) {
@@ -109,5 +213,11 @@ function ocenianie() {
 			});
 			
 		}
+	});
+}
+
+function resetInputBackground() {
+	$('.inputs input').focus(function(event) {
+		$(this).css('background-color', '#fff');
 	});
 }
