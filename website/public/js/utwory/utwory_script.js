@@ -229,9 +229,9 @@ function dodaj() {
 }
 
 function usun() {
-	$('.list-song-info-delete').on('click', function(event) {
+	$('body').on('click', '.list-song-info-delete', function(event) {
 		event.preventDefault();
-		
+
 		var numer = $(this).index('.list-song-info-delete');
 		var tytul = $('.list-song-info-title').eq(numer).text();
 
@@ -252,10 +252,10 @@ function usun() {
 			return;
 		});
 
-		$('.delete-button').click(function(event) {
+		$('.delete-button').unbind().click(function(event) {
 			if(!requestSent) {
       			requestSent = true;
-
+      			
 				$.ajax({
 					url: 'utwory/usun',
 					type: 'post',
