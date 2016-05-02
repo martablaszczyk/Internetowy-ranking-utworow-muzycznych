@@ -77,7 +77,12 @@ class Utwory extends Controller {
 		echo $this->model->glosuj();
 	}
 
-
-
-	
+	public function usun() {
+		if(!$this->czyZalogowany()) {
+			$this->redirect('utwory');
+			exit;	
+		}
+		echo $this->model->usun($_POST);
 	}
+
+}

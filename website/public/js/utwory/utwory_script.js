@@ -1,9 +1,10 @@
 $(document).ready(function() {
 	//flag, prevent duplicate ajax requests
 	requestSent = false;
-
+	
 	edytuj();
 	dodaj();
+	usun();
 	sortuj();
 	ocenianie();
 	resetInputBackground();
@@ -224,6 +225,54 @@ function dodaj() {
 			}
 		});
 		
+	});
+}
+
+function usun() {
+	$('.list-song-info-delete').on('click', function(event) {
+		event.preventDefault();
+		
+		var numer = $(this).index('.list-song-info-delete');
+		var tytul = $('.list-song-info-title').eq(numer).text();
+
+		// check if overlay exists - it was created before
+		if(!$('.overlay').length) {
+			$('body').append('<div class="overlay"></div>');
+		}
+
+		$('.overlay, .delete_alert').fadeIn();
+
+		$('.alert-exit').click(function(event) {
+			$('.overlay, .delete_alert').fadeOut();
+		});
+
+		$(document).keydown(function(event) {
+			// ESCAPE key pressed
+			if(event.keyCode == 27) $('.overlay, .delete_alert').fadeOut();
+			return;
+		});
+
+		$('.delete-button').click(function(event) {
+			if(!requestSent) {
+      			requestSent = true;
+
+				$.ajax({
+					url: 'utwory/usun',
+					type: 'post',
+					data: {tytul: tytul},
+					success: function(result) {
+						requestSent = false;
+						$('.overlay, .delete_alert').fadeOut();
+						if(result == 'ok') {
+							$('.list-song').eq(numer).remove();
+						} else {
+							console.log(result);
+						}
+				}});
+			}
+		});
+
+
 	});
 }
 

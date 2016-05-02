@@ -19,6 +19,7 @@ class Model_Utwory extends Model {
 		}
 	}
 
+	
 	public function dodaj($post) {
 		//sprawdzenie czy isset i nie puste
 		//czy dlugosc jest odpowiednia
@@ -428,5 +429,51 @@ class Model_Utwory extends Model {
 		}
 		return $utwory;
 	}
-	
+
+	public function usun($post) {
+		$bledy = array();
+
+		$post = $_POST;
+
+
+		if(!isset($post['tytul'])) {
+			$bledy[] = 'Nie kombinuj hakerze.';
+		}
+
+		$tytul = $post['tytul'];
+
+		if(empty($tytul)) {
+			$bledy[] = 'Nie wprowadzono wszystkich danych.';
+		}
+
+		if(count($bledy) == 0) {
+			$this->_db->beginTransaction();
+
+			$utwor = $this->_db->selectOne('utwory', array(
+				'tytul' => $tytul
+			));
+			$utwor_id = $utwor['id'];
+
+			$delete = $this->_db->delete('utwory', array(
+				'tytul' => $tytul
+			));
+
+			if(is_object($delete)) {
+				$delete2 = $this->_db->delete('oceny', array(
+				'id_utworu' => $utwor_id
+			));
+				if(is_object($delete2)) {
+					$this->_db->commit();
+					return 'ok';
+				} else {
+					$this->_db->rollBack();
+					return 'Wystąpił błąd podczas usuwania oceny utworu. ' . $delete2;
+				}
+				
+			} else {
+				$this->_db->rollBack();
+				return 'Wystąpił błąd podczas usuwania utworu. ' . $delete;
+			}
+		}
+	}
 }
