@@ -182,16 +182,13 @@ class Database extends PDO {
 		try {
 			$sql = $this->prepare("SELECT count(*) FROM {$from} WHERE {$where} {$where_not}");
 
-			ChromePhp::log($sql);
 
 			foreach ($where_array as $key => $value) {
 				$sql->bindValue(':' . $key, $value);
-				ChromePhp::log(':' . $key . ' ' . $value);
 			}
 
 			foreach ($where_not_array as $key => $value) {
 				$sql->bindValue(':' . $key, $value);
-				ChromePhp::log(':' . $key . ' ' . $value);
 			}
 
 			$sql->execute();
@@ -231,5 +228,33 @@ class Database extends PDO {
 			return $ex->getMessage();
 		}
 		
+	}
+
+	public function delete($from, $where_array = []) {
+		$where = '';
+		$number = 0;
+		$length = sizeof($where_array);
+		foreach ($where_array as $key => $value) {
+			$where.= $key . ' = :' . $key . ' ';
+			if($number < $length-1) {
+				$where.= 'AND ';
+			}
+			$number++;
+		}
+
+		
+		$query = "DELETE FROM {$from} WHERE {$where}";
+
+		try {
+			$sql = $this->prepare($query);
+			foreach ($where_array as $key => $value) {
+				$sql->bindValue(':' . $key, $value);
+			}
+	
+			$sql->execute();
+			return $sql;
+		} catch(PDOException $ex) {
+			return $ex->getMessage();
+		}
 	}
 }
