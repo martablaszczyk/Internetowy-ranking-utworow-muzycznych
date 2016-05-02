@@ -2,10 +2,25 @@ $(document).ready(function() {
 	//flag, prevent duplicate ajax requests
 	requestSent = false;
 
+	sortuj();
 	ocenianie();
 
 });
 
+
+function sortuj() {
+	$('.sort-select').change(function(event) {
+		$('.sortuj_form').submit();		
+	});
+
+	//set selected option active after refresh
+	var sortuj = getURLParameter('sortuj');
+	$('.sort-select').children('option').each(function(index, el) {
+		if(this.value == sortuj) {
+			$(this).attr('selected', 'selected');
+		}
+	});
+}
 
 function ocenianie() {
 	//check if cookies ares set(so if user voted before)
