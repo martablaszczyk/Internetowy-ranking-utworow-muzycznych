@@ -29,5 +29,11 @@ class Utwory extends Controller {
 		$this->view->display('utwory/index');
 	}
 
+	public function glosuj() {
+		echo $this->model->glosuj();
+	}
+
+	
+
 	
 	}
