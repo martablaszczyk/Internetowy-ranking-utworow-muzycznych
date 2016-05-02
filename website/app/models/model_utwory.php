@@ -453,6 +453,7 @@ class Model_Utwory extends Model {
 				'tytul' => $tytul
 			));
 			$utwor_id = $utwor['id'];
+			$zdjecie = $utwor['zdjecie'];
 
 			$delete = $this->_db->delete('utwory', array(
 				'tytul' => $tytul
@@ -463,8 +464,11 @@ class Model_Utwory extends Model {
 				'id_utworu' => $utwor_id
 			));
 				if(is_object($delete2)) {
+					if($zdjecie != NULL) unlink('okladki/' . $zdjecie);
+
 					$this->_db->commit();
 					return 'ok';
+					
 				} else {
 					$this->_db->rollBack();
 					return 'Wystąpił błąd podczas usuwania oceny utworu. ' . $delete2;
