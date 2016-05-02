@@ -38,6 +38,15 @@ class Utwory extends Controller {
 		echo $this->model->dodaj($_POST);
 	}
 
+	public function edytuj() {
+		if(!$this->czyZalogowany()) {
+			$this->redirect('utwory');
+			exit;	
+		}
+
+		echo $this->model->edytuj($_POST);
+	}
+
 	public function szukaj() {
 		if($this->czyZalogowany()) {
 			$this->view->czyZalogowany = true;
