@@ -23,33 +23,35 @@
     width: 100%;
     padding: 100px;
 }
+.search-col {
+    padding: 0;
+}
 .search {
 	margin-bottom: 50px;
 }
 .search-input {
 	width: 100%;
     height: 40px;
-    color: #666;
+    color: #000;
     font-size: 18px;
-    border: 2px solid #2980B9;
-    border-radius: 6px;
-    padding-left: 9px;
-}
-.search-input:hover {
-	border: 2px solid #205B82;
+    font-family: arial,sans-serif;
+    border: 4px solid #ffdb4c;
+    padding-right: 40px;
+    height: 46px;
+    padding-left: 12px;
 }
 .search-submit {
 	height: 40px;
-    display: flex;
-    align-items: center;
+    padding: 0;
+    display: inline-block;
 }
 .search-submit input {
-	font-size: 20px;
-    background-color: #2980B9;
-    border: 0;
-}
-.search-submit input:hover {
-	color: #ccc;
+    width: 102px;
+    font: 19px/40px arial,sans-serif;
+    padding: 0 22px 0 23px;
+    border: solid #ffdb4c;
+    color: #000;
+    background-color: #ffdb4c;
 }
 .sort select {
     margin-bottom: 50px;
