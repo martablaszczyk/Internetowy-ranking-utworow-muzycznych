@@ -7,7 +7,7 @@
 <div class="content row">
 	<div class="search row">
 		<form action="utwory/szukaj" method="get">
-			<div class="col-xs-9 col-xs-offset-1">
+			<div class="col-xs-7 col-xs-offset-2 search-col">
 				<input class="search-input" name="szukaj" type="text" placeholder="Szukaj" value="<?php if(isset($_GET['szukaj'])) echo $_GET['szukaj']; ?>">
 			</div>
 			<?php if(isset($_GET['sortuj'])): ?>
@@ -88,6 +88,7 @@
 					</div>
 				</div>
 			</div>
+			<hr>
 		</div>
 		<?php endforeach; ?>
 
