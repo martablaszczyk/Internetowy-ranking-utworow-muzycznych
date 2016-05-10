@@ -16,9 +16,12 @@
     text-decoration: underline;
 }
 .content {
-	background-color: #2980B9;
-	min-height: 100%;
-	padding: 100px;
+    background-color: #2980B9;
+    min-height: calc(100% - 202px);
+    display: inline-block;
+    margin: 0;
+    width: 100%;
+    padding: 100px;
 }
 .search {
 	margin-bottom: 50px;
@@ -227,4 +230,8 @@ input[type=file] {
 }
 .delete_alert div button {
     margin-right: 5px;
+}
+.footer {
+    background-color: #27AE60;
+    height: 80px;
 }
