@@ -1,10 +1,18 @@
 .title {
 	background-color: #27AE60;
 	padding: 40px 20px;
+    display: flex;
+    align-items: center;
 }
 .title div {
 	text-align: center;
 	font-size: 30px;
+}
+#title_text {
+    padding-right: 100px;
+}
+#logo {
+    width: 100px;
 }
 .wyloguj_button {
     float: right;

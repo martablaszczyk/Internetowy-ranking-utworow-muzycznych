@@ -1,5 +1,6 @@
 <div class="title row">
-	<div class="col-xs-12">
+	<div class="col-xs-2"><a href=""><img src="img/logo.png" id="logo"></a></div>
+	<div class="col-xs-10" id="title_text">
 		<a href="">Internetowy Ranking Utworów Muzycznych</a>
 		<?php if($this->czyZalogowany) echo '<a class="wyloguj_button" href="logowanie/wyloguj">Wyloguj</a>'; ?>
 	</div>
